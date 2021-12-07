@@ -1,1 +1,1 @@
-Hello there!
+In the project folder, create a folder named data. In the data folder create a folder named images.
