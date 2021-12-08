@@ -7,7 +7,7 @@ This Python script scrap and save data from the website https://books.toscrape.c
 Go to the project folder via the terminal.
 Create the virtual environment using the command  ' python -m venv <environment name> '
 Activate using  'source <environment name>/bin/activate' on linux ;
-				 '<environment name>/Scripts/activate.bat' on windows.
+		'<environment name>/Scripts/activate.bat' on windows.
 Install packages from requirements.txt using 'pip install -r requirements.txt'
 
 ##Usage
