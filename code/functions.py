@@ -5,16 +5,32 @@ import requests
 from bs4 import BeautifulSoup
 
 
-# Transform rating in srting to rating in interger
+
 def rating_in_letter_to_interger(rating_in_letter):
+    """Transform rating in srting to rating in interger
+
+    Args:
+        rating_in_letter (str): Should be either; "Zero", "One", "Two", "Three", "Four" or "Five" 
+
+    Returns:
+        int
+    """
     numbers = {"Zero": 0, "One": 1, "Two": 2, "Three": 3, "Four": 4, "Five": 5}
     rating_int = numbers[rating_in_letter]
     return rating_int
 
 
-# Scrap thoose data from a product page:
-#  product_page_url, upc, title, price_including_tax, price_excluding_tax, number_available, description, category, review_rating, image_url
+
 def get_data_from_product_page(product_page_url, category):
+    """Scrap data from a product page
+
+    Args:
+        product_page_url (str)
+        category (str): category of the scrapped book
+
+    Returns:
+        list: [product_page_url, upc, title, price_including_tax, price_excluding_tax, number_available, description, category, review_rating, image_url]
+    """
     page = requests.get(product_page_url)
     soup = BeautifulSoup(page.content, "html.parser")
     if page.ok:
@@ -31,8 +47,8 @@ def get_data_from_product_page(product_page_url, category):
         price_including_tax = data_table[2]
         price_excluding_tax = data_table[3]
         extracted_number = re.findall(
-            r"\d+", data_table[5]
-        )  # Searching for one or more digit in data_table[5]= In stock (20 available) for example
+            r"\d+", data_table[5]# Searching for one or more digit in data_table[5]= In stock (20 available) for example
+        )  
         number_available = extracted_number[0]
         title = soup.find("li", class_="active").text
         on_top_of_description = soup.find("div", class_="sub-header")
@@ -40,30 +56,38 @@ def get_data_from_product_page(product_page_url, category):
         image_soup = soup.find("div", class_="item active").img
         image_path = image_soup["src"]
         image_url = (
-            "http://books.toscrape.com" + image_path[5:]
-        )  # Removing ../.. at the begining of the path
+            "http://books.toscrape.com" + image_path[5:]  # Removing ../.. at the begining of the path
+        )
         review_rating_tag = soup.find(
             "p", "star-rating"
         ).attrs  # This return {'class': ['star-rating', 'review_rating_letter']} hence the following:
         review_rating_letter = review_rating_tag["class"][1]
         review_rating = rating_in_letter_to_interger(review_rating_letter)
         product_data = [
-            product_page_url,
-            upc,
-            title,
-            price_including_tax,
-            price_excluding_tax,
-            number_available,
-            description,
-            category,
+            product_page_url.strip(), #! rajouer  .stip()
+            upc.strip(),
+            title.strip(),
+            price_including_tax.strip(),
+            price_excluding_tax.strip(),
+            number_available.strip(),
+            description.strip(), 
+            category.strip(),
             review_rating,
-            image_url,
+            image_url.strip(),
         ]
         return product_data
 
 
-# Scrap and return all category from the index
+
 def get_all_categories(index):
+    """Scrap and return all category from the index
+
+    Args:
+        index (str): In reality only "https://books.toscrape.com/"
+
+    Returns:
+        list
+    """
     page = requests.get(index)
     categories = []
     if page.ok:
@@ -77,8 +101,16 @@ def get_all_categories(index):
     return categories
 
 
-# Return all catalogue page's urls for a give category
+
 def get_catalogue_urls_from_a_category(category):
+    """Return all catalogue page's url for a given category
+
+    Args:
+        category (str)
+
+    Returns:
+        list:  a list of url (can be only one) of the pages for the category
+    """
     urls = []
     url_index = (
         "http://books.toscrape.com/catalogue/category/books/" + category + "/index.html"
@@ -102,10 +134,15 @@ def get_catalogue_urls_from_a_category(category):
     return urls
 
 
-# Scraps urls of product pages from a catalog page
-
-
 def get_page_product_url(catalogue_url):
+    """Scraps urls of procuct pages from a catalog page
+
+    Args:
+        catalogue_url (str): url of a catalogue page
+
+    Returns:
+        list: a list of product page urls
+    """
     product_page_urls = []
     page = requests.get(catalogue_url)
     if page.ok:

@@ -6,7 +6,7 @@ start_time = time.time()
 
 page_to_scrap = "https://books.toscrape.com/"
 data = []
-i=0
+i=1
 for category in get_all_categories(page_to_scrap):
     pages_catalogue = get_catalogue_urls_from_a_category(category)
     for page in pages_catalogue:
@@ -14,9 +14,9 @@ for category in get_all_categories(page_to_scrap):
         all_product_page.extend(get_page_product_url(page))
         for item in all_product_page:
             data.append(get_data_from_product_page(item, category))
-            print(i)
+            print("book scraped: " +str(i))
             i+=1
-print("number of books scrapped: " + str(len(data)))
+
 print("done in: " + "--- %s seconds ---" % (time.time() - start_time))
 
 header = [
@@ -31,11 +31,10 @@ header = [
     "review_rating",
     "image_url",
 ]
-with open("data/data.csv", "w", encoding="utf-8") as fichier_csv:
+with open("data/data.csv", "w", newline='', encoding="utf-8") as fichier_csv:
     writer = csv.writer(fichier_csv, delimiter=",")
     writer.writerow(header)
-    for one_product_data in data:
-        writer.writerow(one_product_data)
+    writer.writerows(data)
 print("writting in cvs files done at: ")
 print("--- %s seconds ---" % (time.time() - start_time))
 
