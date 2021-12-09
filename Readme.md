@@ -28,6 +28,7 @@ source <environment_name>/bin/activate
 ```
 
 ### Dependencies
+
 Install packages from requirements.txt using
 
 ```bash
@@ -46,4 +47,3 @@ Run main.py to execute:
  ```bash
  python main.py
  ```
-
