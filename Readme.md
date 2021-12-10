@@ -45,5 +45,5 @@ Install packages from requirements.txt using
 Run main.py to execute:
 
  ```bash
- python main.py
+ python code/main.py
  ```
