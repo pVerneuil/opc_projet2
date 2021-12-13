@@ -47,7 +47,7 @@ def get_data_from_product_page(product_page_url, category):
         price_including_tax = data_table[2]
         price_excluding_tax = data_table[3]
         extracted_number = re.findall(
-            r"\d+", data_table[5]# Searching for one or more digit in data_table[5]= In stock (20 available) for example
+            r"\d+", data_table[5]# Searching for one or more digit in data_table[5] = "In stock (20 available)"" for example
         )  
         number_available = extracted_number[0]
         title = soup.find("li", class_="active").text
@@ -64,7 +64,7 @@ def get_data_from_product_page(product_page_url, category):
         review_rating_letter = review_rating_tag["class"][1]
         review_rating = rating_in_letter_to_interger(review_rating_letter)
         product_data = [
-            product_page_url.strip(), #! rajouer  .stip()
+            product_page_url.strip(), 
             upc.strip(),
             title.strip(),
             price_including_tax.strip(),

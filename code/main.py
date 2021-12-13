@@ -17,7 +17,7 @@ for category in get_all_categories(page_to_scrap):
             print(" book scraped: " +str(i))
             i+=1
 
-print("done in: " + "--- %s seconds ---" % (time.time() - start_time))
+print("extraction done in: " + "--- %s seconds ---" % (time.time() - start_time))
 
 header = [
     "product_page_url",
