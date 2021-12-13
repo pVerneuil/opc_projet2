@@ -10,11 +10,11 @@ i=1
 for category in get_all_categories(page_to_scrap):
     pages_catalogue = get_catalogue_urls_from_a_category(category)
     for page in pages_catalogue:
-        all_product_page= []
-        all_product_page.extend(get_page_product_url(page))
-        for item in all_product_page:
+        all_product_pages= []
+        all_product_pages.extend(get_page_product_url(page))
+        for item in all_product_pages:
             data.append(get_data_from_product_page(item, category))
-            print("book scraped: " +str(i))
+            print(" book scraped: " +str(i))
             i+=1
 
 print("done in: " + "--- %s seconds ---" % (time.time() - start_time))
